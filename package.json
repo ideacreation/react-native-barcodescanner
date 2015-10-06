@@ -1,0 +1,29 @@
+{
+  "name": "react-native-barcodescanner",
+  "version": "0.1.0",
+  "description": "A barcode scanner component for react native",
+  "license": "MIT",
+  "main": "BarcodeScanner.js",
+  "author": {
+    "name": "Andreas Keller",
+    "email": "a.keller@e-guma.ch",
+    "url": "https://www.e-guma.ch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ideacreation/react-native-barcodescanner.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "react-component",
+    "android",
+    "barcodescanner",
+    "barcode",
+    "scanner",
+    "barcodereader"
+  ],
+  "peerDependencies": {
+    "react-native": ">=0.12.0 || 0.12.0-rc"
+  }
+}
