@@ -22,8 +22,5 @@
     "barcode",
     "scanner",
     "barcodereader"
-  ],
-  "peerDependencies": {
-    "react-native": ">=0.12.0 || 0.12.0-rc"
-  }
+  ]
 }
