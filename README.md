@@ -14,8 +14,8 @@ npm i --save react-native-barcodescanner
 
 ```gradle
 ...
-include ':barcodescanner', ':app'
-project(':barcodescanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcodescanner/android')
+include ':ReactNativeBarcodescanner', ':app'
+project(':ReactNativeBarcodescanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcodescanner/android')
 ```
 
 * In `android/app/build.gradle`
@@ -24,7 +24,7 @@ project(':barcodescanner').projectDir = new File(rootProject.projectDir, '../nod
 ...
 dependencies {
     ...
-    compile project(':barcodescanner')
+    compile project(':ReactNativeBarcodescanner')
 }
 ```
 
