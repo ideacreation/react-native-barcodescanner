@@ -1,6 +1,6 @@
 {
   "name": "react-native-barcodescanner",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A barcode scanner component for react native",
   "license": "MIT",
   "main": "BarcodeScanner.js",
