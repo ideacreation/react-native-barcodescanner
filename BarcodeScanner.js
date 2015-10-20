@@ -1,8 +1,10 @@
 'use strict';
 
-var React = require('React');
-var PropTypes = require('ReactPropTypes');
-var requireNativeComponent = require('requireNativeComponent');
+var React = require('react-native');
+var {
+  PropTypes,
+  requireNativeComponent,
+} = React;
 
 class BarcodeScannerView extends React.Component {
   constructor() {
@@ -38,6 +40,11 @@ BarcodeScannerView.propTypes = {
   torchMode: PropTypes.string,
   cameraType: PropTypes.string,
   onBarCodeRead: PropTypes.func,
+  rotation: PropTypes.number,
+  scaleX: PropTypes.number,
+  scaleY: PropTypes.number,
+  translateX: PropTypes.number,
+  translateY: PropTypes.number,
 };
 
 var RNBarcodeScannerView = requireNativeComponent('RNBarcodeScannerView', BarcodeScannerView, {
