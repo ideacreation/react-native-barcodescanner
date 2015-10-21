@@ -20,6 +20,7 @@ public class ReactBarcodeScannerManager extends ViewGroupManager<ReactBarcodeSca
     private static final String DEFAULT_CAMERA_TYPE = "back";
 
     private ReactBarcodeScannerView mScannerView;
+    private boolean mScannerViewVisible;
 
     @Override
     public String getName() {
@@ -94,18 +95,22 @@ public class ReactBarcodeScannerManager extends ViewGroupManager<ReactBarcodeSca
         mScannerView.setLaserColor(DEFAULT_VIEWFINDER_LASER_COLOR);
         mScannerView.setCameraType(DEFAULT_CAMERA_TYPE);
         mScannerView.setTorchMode(DEFAULT_TORCH_MODE);
+        mScannerViewVisible = true;
         return mScannerView;
     }
 
     @Override
     public void onDropViewInstance(ThemedReactContext reactContext, ReactBarcodeScannerView view) {
+        mScannerViewVisible = false;
         view.stopCamera();
     }
 
     @Override
     public void onHostResume() {
-        mScannerView.startCamera(mScannerView.getCameraId());
-        mScannerView.setFlash(mScannerView.torchModeIsEnabled());
+        if (mScannerViewVisible) {
+            mScannerView.startCamera(mScannerView.getCameraId());
+            mScannerView.setFlash(mScannerView.torchModeIsEnabled());
+        }
     }
 
     @Override
