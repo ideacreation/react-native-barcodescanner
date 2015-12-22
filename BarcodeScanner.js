@@ -45,10 +45,20 @@ BarcodeScannerView.propTypes = {
   scaleY: PropTypes.number,
   translateX: PropTypes.number,
   translateY: PropTypes.number,
+  importantForAccessibility: PropTypes.string,
+  accessibilityLabel: PropTypes.string,
+  testID: PropTypes.string,
+  renderToHardwareTextureAndroid: PropTypes.string,
+  onLayout: PropTypes.bool
 };
 
 var RNBarcodeScannerView = requireNativeComponent('RNBarcodeScannerView', BarcodeScannerView, {
-  nativeOnly: {onChange: true}
+  nativeOnly: {
+    onChange: true,
+    accessibilityLiveRegion: 'none',
+    accessibilityComponentType: 'button'
+  }
 });
+
 
 module.exports = BarcodeScannerView;
