@@ -4,6 +4,7 @@ var React = require('react-native');
 var {
   PropTypes,
   requireNativeComponent,
+  View,
 } = React;
 
 class BarcodeScannerView extends React.Component {
@@ -31,6 +32,7 @@ class BarcodeScannerView extends React.Component {
 }
 
 BarcodeScannerView.propTypes = {
+  ...View.propTypes,
   viewFinderBackgroundColor: PropTypes.string,
   viewFinderBorderColor: PropTypes.string,
   viewFinderBorderWidth: PropTypes.number,
