@@ -10,7 +10,7 @@ npm i --save react-native-barcodescanner
 
 ### Add it to your android project
 
-* In `android/setting.gradle`
+* In `android/settings.gradle`
 
 ```gradle
 ...
