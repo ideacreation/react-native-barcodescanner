@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.uimanager.ThemedReactContext;
-import com.facebook.react.uimanager.ReactProp;
+import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.ViewGroupManager;
 
 public class ReactBarcodeScannerManager extends ViewGroupManager<ReactBarcodeScannerView> implements LifecycleEventListener {
@@ -100,7 +100,7 @@ public class ReactBarcodeScannerManager extends ViewGroupManager<ReactBarcodeSca
     }
 
     @Override
-    public void onDropViewInstance(ThemedReactContext reactContext, ReactBarcodeScannerView view) {
+    public void onDropViewInstance(ReactBarcodeScannerView view) {
         mScannerViewVisible = false;
         view.stopCamera();
     }
