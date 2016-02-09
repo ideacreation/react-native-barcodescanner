@@ -34,34 +34,24 @@ dependencies {
 
 * register module (in MainActivity.java)
 
-```java
-import com.eguma.barcodescanner.BarcodeScanner;  // <--- import
+Add the following **import** statement:
+```Java
+com.eguma.barcodescanner.BarcodeScanner;
+```
 
-public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
-  ......
+...and then add `BarcodeScanner` to exported package list *(MainActivity.java#getPackages)*:
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mReactRootView = new ReactRootView(this);
+```Java
+public class MainActivity extends ReactActivity {
+    // (...)
 
-    mReactInstanceManager = ReactInstanceManager.builder()
-      .setApplication(getApplication())
-      .setBundleAssetName("index.android.bundle")
-      .setJSMainModuleName("index.android")
-      .addPackage(new MainReactPackage())
-      .addPackage(new BarcodeScanner())              // <------ add here
-      .setUseDeveloperSupport(BuildConfig.DEBUG)
-      .setInitialLifecycleState(LifecycleState.RESUMED)
-      .build();
-
-    mReactRootView.startReactApplication(mReactInstanceManager, "ExampleRN", null);
-
-    setContentView(mReactRootView);
-  }
-
-  ......
-
+    @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+        new MainReactPackage(),
+        new BarcodeScanner()
+      );
+    }
 }
 ```
 
