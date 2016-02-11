@@ -34,53 +34,49 @@ dependencies {
 
 * register module (in MainActivity.java)
 
-```java
-import com.eguma.barcodescanner.BarcodeScanner;  // <--- import
+Add the following **import** statement:
+```Java
+import com.eguma.barcodescanner.BarcodeScanner;
+```
 
-public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
-  ......
+...and then add `BarcodeScanner` to exported package list *(MainActivity.java#getPackages)*:
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    mReactRootView = new ReactRootView(this);
+```Java
+public class MainActivity extends ReactActivity {
+    // (...)
 
-    mReactInstanceManager = ReactInstanceManager.builder()
-      .setApplication(getApplication())
-      .setBundleAssetName("index.android.bundle")
-      .setJSMainModuleName("index.android")
-      .addPackage(new MainReactPackage())
-      .addPackage(new BarcodeScanner())              // <------ add here
-      .setUseDeveloperSupport(BuildConfig.DEBUG)
-      .setInitialLifecycleState(LifecycleState.RESUMED)
-      .build();
-
-    mReactRootView.startReactApplication(mReactInstanceManager, "ExampleRN", null);
-
-    setContentView(mReactRootView);
-  }
-
-  ......
-
+    @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+        new MainReactPackage(),
+        new BarcodeScanner()
+      );
+    }
 }
 ```
 
 ## Example
 ```javascript
-var BarcodeScanner = require('react-native-barcodescanner');
+import React, {
+  AppRegistry,
+  Component,
+} from 'react-native';
+import BarcodeScanner from 'react-native-barcodescanner';
 
-var BarcodeScannerExampleApp = React.createClass({
-  getInitialState() {
-    return ({
+class BarcodeScannerExampleApp extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       torchMode: 'off',
       cameraType: 'back',
-    });
-  },
+    };
+  }
 
   barcodeReceived(e) {
     console.log('Barcode: ' + e.data);
     console.log('Type: ' + e.type);
-  },
+  }
 
   render() {
     return (
@@ -92,7 +88,9 @@ var BarcodeScannerExampleApp = React.createClass({
       />
     );
   }
-});
+}
+
+AppRegistry.registerComponent('BarcodeScannerExampleApp', () => BarcodeScannerExampleApp);
 ```
 
 ## Properties
