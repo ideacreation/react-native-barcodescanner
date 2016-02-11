@@ -106,39 +106,53 @@ public class ReactBarcodeScannerView extends ZXingScannerView implements ZXingSc
 
     // front, back
     public void setCameraType(String type) {
-        if (mPrevCameraType.equals(type)) return;
+        if (mPrevCameraType.equals(type)) {
+            return;
+        }
 
         stopCamera();
+
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+
         mCameraId = -1;
+
         for (int cameraId = 0; cameraId < Camera.getNumberOfCameras(); cameraId++) {
             Camera.getCameraInfo(cameraId, cameraInfo);
+
             if (type.equals("back") && cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
                 mCameraId = cameraId;
                 break;
             }
+
             if (type.equals("front") && cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
                 mCameraId = cameraId;
                 break;
             }
         }
+
         startCamera(mCameraId);
+
         if (type.equals("back")) {
           setFlash(torchModeIsEnabled());
         }
+
         mPrevCameraType = type;
     }
 
     @Override
     public void handleResult(Result result) {
         WritableMap event = Arguments.createMap();
+
         event.putString("data", result.getText());
         event.putString("type", result.getBarcodeFormat().toString());
-        ReactContext reactContext = (ReactContext)getContext();
+
+        ReactContext reactContext = (ReactContext) getContext();
+
         reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
-                getId(),
-                "topChange",
-                event);
+            getId(),
+            "topChange",
+            event
+        );
 
         startCamera(mCameraId);
         setFlash(torchModeIsEnabled());
