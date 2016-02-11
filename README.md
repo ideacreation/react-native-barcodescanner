@@ -36,7 +36,7 @@ dependencies {
 
 Add the following **import** statement:
 ```Java
-com.eguma.barcodescanner.BarcodeScanner;
+import com.eguma.barcodescanner.BarcodeScanner;
 ```
 
 ...and then add `BarcodeScanner` to exported package list *(MainActivity.java#getPackages)*:
@@ -57,20 +57,26 @@ public class MainActivity extends ReactActivity {
 
 ## Example
 ```javascript
-var BarcodeScanner = require('react-native-barcodescanner');
+import React, {
+  AppRegistry,
+  Component,
+} from 'react-native';
+import BarcodeScanner from 'react-native-barcodescanner';
 
-var BarcodeScannerExampleApp = React.createClass({
-  getInitialState() {
-    return ({
+class BarcodeScannerExampleApp extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
       torchMode: 'off',
       cameraType: 'back',
-    });
-  },
+    };
+  }
 
   barcodeReceived(e) {
     console.log('Barcode: ' + e.data);
     console.log('Type: ' + e.type);
-  },
+  }
 
   render() {
     return (
@@ -82,7 +88,9 @@ var BarcodeScannerExampleApp = React.createClass({
       />
     );
   }
-});
+}
+
+AppRegistry.registerComponent('BarcodeScannerExampleApp', () => BarcodeScannerExampleApp);
 ```
 
 ## Properties
