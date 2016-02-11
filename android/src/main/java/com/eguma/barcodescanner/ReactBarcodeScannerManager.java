@@ -1,11 +1,11 @@
 package com.eguma.barcodescanner;
 
-import javax.annotation.Nullable;
-
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.uimanager.ThemedReactContext;
-import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.ViewGroupManager;
+import com.facebook.react.uimanager.annotations.ReactProp;
+
+import javax.annotation.Nullable;
 
 public class ReactBarcodeScannerManager extends ViewGroupManager<ReactBarcodeScannerView> implements LifecycleEventListener {
     private static final String REACT_CLASS = "RNBarcodeScannerView";
