@@ -16,44 +16,44 @@ npm i --save react-native-barcodescanner
 
 * In `android/settings.gradle`
 
-```gradle
-...
-include ':ReactNativeBarcodescanner', ':app'
-project(':ReactNativeBarcodescanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcodescanner/android')
-```
+  ```gradle
+  ...
+  include ':ReactNativeBarcodescanner', ':app'
+  project(':ReactNativeBarcodescanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcodescanner/android')
+  ```
 
 * In `android/app/build.gradle`
 
-```gradle
-...
-dependencies {
-    ...
-    compile project(':ReactNativeBarcodescanner')
-}
-```
+  ```gradle
+  ...
+  dependencies {
+      ...
+      compile project(':ReactNativeBarcodescanner')
+  }
+  ```
 
 * register module (in MainActivity.java)
 
-Add the following **import** statement:
-```Java
-import com.eguma.barcodescanner.BarcodeScanner;
-```
+  Add the following **import** statement:
+  ```Java
+  import com.eguma.barcodescanner.BarcodeScanner;
+  ```
 
-...and then add `BarcodeScanner` to exported package list *(MainActivity.java#getPackages)*:
+  ...and then add `BarcodeScanner` to exported package list *(MainActivity.java#getPackages)*:
 
-```Java
-public class MainActivity extends ReactActivity {
-    // (...)
+  ```Java
+  public class MainActivity extends ReactActivity {
+      // (...)
 
-    @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-        new MainReactPackage(),
-        new BarcodeScanner()
-      );
-    }
-}
-```
+      @Override
+      protected List<ReactPackage> getPackages() {
+        return Arrays.<ReactPackage>asList(
+          new MainReactPackage(),
+          new BarcodeScanner()
+        );
+      }
+  }
+  ```
 
 ## Example
 ```javascript
@@ -144,4 +144,8 @@ The following properties can be used to style the viewfinder:
 `viewFinderDrawLaser`,
 `viewFinderLaserColor`
 
-All color values are strings and must be specified as `#AARRGGBB` (alpha, red, green, blue). `viewFinderBorderWidth` and `viewFinderBorderLength` are numbers, `viewFinderDrawLaser` is either `true` or `false` (default). For a better overview of the viewfinder see ![Portrait](https://raw.github.com/ideacreation/react-native-barcodescanner/master/screenshot.png).
+All color values are strings and must be specified as `#AARRGGBB` (alpha, red, green, blue). `viewFinderBorderWidth` and `viewFinderBorderLength` are numbers, `viewFinderDrawLaser` is either `true` or `false` (default).
+
+For a better overview of the viewfinder see
+
+![Portrait](https://raw.github.com/ideacreation/react-native-barcodescanner/master/screenshot.png).
