@@ -6,15 +6,15 @@ import android.graphics.Color;
 import android.hardware.Camera;
 import android.util.AttributeSet;
 
-import me.dm7.barcodescanner.core.IViewFinder;
-import me.dm7.barcodescanner.core.ViewFinderView;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.google.zxing.Result;
+
+import me.dm7.barcodescanner.core.IViewFinder;
+import me.dm7.barcodescanner.core.ViewFinderView;
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ReactBarcodeScannerView extends ZXingScannerView implements ZXingScannerView.ResultHandler {
     private boolean mDrawLaser;
@@ -30,23 +30,23 @@ public class ReactBarcodeScannerView extends ZXingScannerView implements ZXingSc
 
     @Override
     protected IViewFinder createViewFinderView(Context context) {
-        if (mDrawLaser) {
-            mViewFinderView = new ViewFinderView(context);
-        }
-        else {
-            mViewFinderView = new CustomViewFinderView(context);
-        }
-
+        mViewFinderView = new AllowsLaserTogglingViewFinderView(context);
         return mViewFinderView;
     }
 
-    private static class CustomViewFinderView extends ViewFinderView {
-        public CustomViewFinderView(Context context) {
+    private static class AllowsLaserTogglingViewFinderView extends ViewFinderView {
+        private boolean mDrawLaser;
+
+        public AllowsLaserTogglingViewFinderView(Context context) {
             super(context);
         }
 
-        public CustomViewFinderView(Context context, AttributeSet attrs) {
+        public AllowsLaserTogglingViewFinderView(Context context, AttributeSet attrs) {
             super(context, attrs);
+        }
+
+        public void drawLaser(final boolean shouldDrawLaser) {
+            mDrawLaser = shouldDrawLaser;
         }
 
         @Override
@@ -57,10 +57,13 @@ public class ReactBarcodeScannerView extends ZXingScannerView implements ZXingSc
 
             drawViewFinderMask(canvas);
             drawViewFinderBorder(canvas);
+
+            if (mDrawLaser) {
+                drawLaser(canvas);
+            }
         }
     }
 
-    // #AARRGGBB
     public void setMaskColor(String maskColor) {
         mViewFinderView.setMaskColor(Color.parseColor(maskColor));
     }
@@ -78,8 +81,9 @@ public class ReactBarcodeScannerView extends ZXingScannerView implements ZXingSc
         mViewFinderView.setBorderLineLength(borderLineLength);
     }
 
-    public void setDrawLaser(boolean drawLaser) {
-        mDrawLaser = drawLaser;
+    public void setDrawLaser(boolean shouldDrawLaser) {
+        final AllowsLaserTogglingViewFinderView view = (AllowsLaserTogglingViewFinderView) mViewFinderView;
+        view.drawLaser(shouldDrawLaser);
     }
 
     // #AARRGGBB

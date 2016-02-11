@@ -12,8 +12,7 @@ import java.util.List;
 
 public class BarcodeScanner implements ReactPackage {
     @Override
-    public List<NativeModule> createNativeModules(
-            ReactApplicationContext reactContext) {
+    public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Collections.emptyList();
     }
 
@@ -23,10 +22,9 @@ public class BarcodeScanner implements ReactPackage {
     }
 
     @Override
-    public List<ViewManager> createViewManagers(
-            ReactApplicationContext reactContext) {
+    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Arrays.<ViewManager>asList(
-                new ReactBarcodeScannerManager()
+            new ReactBarcodeScannerManager()
         );
     }
 }
