@@ -1,15 +1,19 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, {
+  Component,
   PropTypes,
   requireNativeComponent,
+  StyleSheet,
   View,
-} = React;
+} from 'react-native';
 
-class BarcodeScannerView extends React.Component {
+import Viewfinder from './Viewfinder';
+
+class BarcodeScannerView extends Component {
   constructor() {
     super();
+
     this.onChange = this.onChange.bind(this);
   }
 
@@ -26,28 +30,40 @@ class BarcodeScannerView extends React.Component {
 
   render() {
     return (
-      <RNBarcodeScannerView {...this.props} onChange={this.onChange} />
+      <View style={styles.container}>
+        <RNBarcodeScannerView {...this.props} onChange={this.onChange} />
+        <Viewfinder
+          backgroundColor={this.props.viewFinderBackgroundColor}
+          color={this.props.viewFinderBorderColor}
+          borderWidth={this.props.viewFinderBorderWidth}
+          borderLength={this.props.viewFinderBorderLength}
+          height={this.props.viewFinderHeight}
+          isLoading={this.props.viewFinderShowLoadingIndicator}
+          width={this.props.viewFinderWidth}
+        />
+      </View>
     );
   }
 }
 
 BarcodeScannerView.propTypes = {
   ...View.propTypes,
+  cameraType: PropTypes.string,
+  onBarCodeRead: PropTypes.func,
+  showLoadingIndicator: PropTypes.bool,
+  torchMode: PropTypes.string,
   viewFinderBackgroundColor: PropTypes.string,
   viewFinderBorderColor: PropTypes.string,
   viewFinderBorderWidth: PropTypes.number,
   viewFinderBorderLength: PropTypes.number,
-  viewFinderDrawLaser: PropTypes.bool,
-  viewFinderLaserColor: PropTypes.string,
-  torchMode: PropTypes.string,
-  cameraType: PropTypes.string,
-  onBarCodeRead: PropTypes.func,
-  rotation: PropTypes.number,
-  scaleX: PropTypes.number,
-  scaleY: PropTypes.number,
-  translateX: PropTypes.number,
-  translateY: PropTypes.number,
+  viewFinderShowLoadingIndicator: PropTypes.bool,
 };
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 var RNBarcodeScannerView = requireNativeComponent('RNBarcodeScannerView', BarcodeScannerView, {
   nativeOnly: {onChange: true}

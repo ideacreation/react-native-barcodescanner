@@ -1,10 +1,14 @@
 # react-native-barcodescanner
 
-A barcode scanner component for React Native Android. For iOS you can use https://github.com/lwansbrough/react-native-camera. The library depends on https://github.com/dm77/barcodescanner and https://github.com/zxing/zxing.
+A barcode scanner component for react native android. For iOS you can use https://github.com/lwansbrough/react-native-camera. The library uses https://github.com/zxing/zxing to decode the barcodes.
+
+### Rewrite with Version 2.0.0
+
+With version 2.0.0 (react native >= 0.20.0) react-native-barcodescanner doesn't depend anymore on https://github.com/dm77/barcodescanner, but directly on https://github.com/zxing/zxing. The code is still heavily influenced by it but simplified for our use case. The viewfinder is rendered in javascript and not anymore directly in java.
 
 ### Breaking change
 
-React native 0.19 changed the ReactProps class which led to problems with updating native view properties (see https://github.com/facebook/react-native/issues/5649). These errors are corrected in react-native-barcodescanner version 1.0.0. Use version 1.0.0 and larger for react native >=0.19 and for earlier react native versions use version 0.1.4.
+React native 0.19.0 changed the ReactProps class which led to problems with updating native view properties (see https://github.com/facebook/react-native/issues/5649). These errors are corrected in react-native-barcodescanner version 1.0.0. Use version 1.0.0 and larger for react native >=0.19.0 and for earlier react native versions use version 0.1.4.
 
 ### Installation
 
@@ -18,8 +22,8 @@ npm i --save react-native-barcodescanner
 
   ```gradle
   ...
-  include ':ReactNativeBarcodescanner', ':app'
-  project(':ReactNativeBarcodescanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcodescanner/android')
+  include ':react-native-barcodescanner', ':app'
+  project(':react-native-barcodescanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcodescanner/android')
   ```
 
 * In `android/app/build.gradle`
@@ -28,7 +32,7 @@ npm i --save react-native-barcodescanner
   ...
   dependencies {
       ...
-      compile project(':ReactNativeBarcodescanner')
+      compile project(':react-native-barcodescanner')
   }
   ```
 
@@ -36,10 +40,10 @@ npm i --save react-native-barcodescanner
 
   Add the following **import** statement:
   ```Java
-  import com.eguma.barcodescanner.BarcodeScanner;
+  import com.eguma.barcodescanner.BarcodeScannerPackage;
   ```
 
-  ...and then add `BarcodeScanner` to exported package list *(MainActivity.java#getPackages)*:
+  ...and then add `BarcodeScannerPackage` to exported package list *(MainActivity.java#getPackages)*:
 
   ```Java
   public class MainActivity extends ReactActivity {
@@ -49,7 +53,7 @@ npm i --save react-native-barcodescanner
       protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new BarcodeScanner()
+          new BarcodeScannerPackage()
         );
       }
   }
@@ -141,11 +145,6 @@ The following properties can be used to style the viewfinder:
 `viewFinderBorderColor`,
 `viewFinderBorderWidth`,
 `viewFinderBorderLength`,
-`viewFinderDrawLaser`,
-`viewFinderLaserColor`
+`viewFinderShowLoadingIndicator`,
 
-All color values are strings and must be specified as `#AARRGGBB` (alpha, red, green, blue). `viewFinderBorderWidth` and `viewFinderBorderLength` are numbers, `viewFinderDrawLaser` is either `true` or `false` (default).
-
-For a better overview of the viewfinder see
-
-![Portrait](https://raw.github.com/ideacreation/react-native-barcodescanner/master/screenshot.png).
+All color values are strings (e.g. '#eee' or 'rgba(0, 0, 0, 0.3)', default: 'white'). `viewFinderHeight` (default: 200), `viewFinderWidth` (default: 200), `viewFinderBorderWidth` (default: 2)and `viewFinderBorderLength` (default: 30) are numbers, `viewFinderShowLoadingIndicator` is either `true` or `false` (default) and shows a ActivityIndicatorIOS or a ProgressBarAndroid centered in the viewfinder depending on the platform.
