@@ -29,19 +29,24 @@ class BarcodeScannerView extends Component {
   }
 
   render() {
+    let viewFinder = this.props.showViewFinder ? (
+      <Viewfinder
+        backgroundColor={this.props.viewFinderBackgroundColor}
+        color={this.props.viewFinderBorderColor}
+        borderWidth={this.props.viewFinderBorderWidth}
+        borderLength={this.props.viewFinderBorderLength}
+        height={this.props.viewFinderHeight}
+        isLoading={this.props.viewFinderShowLoadingIndicator}
+        width={this.props.viewFinderWidth}
+      />
+    ) : null;
     return (
-      <View style={styles.container}>
-        <RNBarcodeScannerView {...this.props} onChange={this.onChange} />
-        <Viewfinder
-          backgroundColor={this.props.viewFinderBackgroundColor}
-          color={this.props.viewFinderBorderColor}
-          borderWidth={this.props.viewFinderBorderWidth}
-          borderLength={this.props.viewFinderBorderLength}
-          height={this.props.viewFinderHeight}
-          isLoading={this.props.viewFinderShowLoadingIndicator}
-          width={this.props.viewFinderWidth}
-        />
-      </View>
+      <RNBarcodeScannerView {...this.props} onChange={this.onChange}>
+        <View style={this.props.style} collapsable={false}>
+          {viewFinder}
+          {this.props.children}
+        </View>
+      </RNBarcodeScannerView>
     );
   }
 }
@@ -51,6 +56,7 @@ BarcodeScannerView.propTypes = {
   cameraType: PropTypes.string,
   onBarCodeRead: PropTypes.func,
   showLoadingIndicator: PropTypes.bool,
+  showViewFinder: PropTypes.bool,
   torchMode: PropTypes.string,
   viewFinderBackgroundColor: PropTypes.string,
   viewFinderBorderColor: PropTypes.string,
@@ -59,11 +65,9 @@ BarcodeScannerView.propTypes = {
   viewFinderShowLoadingIndicator: PropTypes.bool,
 };
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+BarcodeScannerView.defaultProps = {
+  showViewFinder: true,
+};
 
 var RNBarcodeScannerView = requireNativeComponent('RNBarcodeScannerView', BarcodeScannerView, {
   nativeOnly: {onChange: true}

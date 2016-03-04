@@ -69,7 +69,7 @@ class Viewfinder extends Component {
 
   render() {
     return (
-      <View style={styles.overlay}>
+      <View style={[styles.container, this.getBackgroundColor()]}>
         <View style={[styles.viewfinder, this.getBackgroundColor(), this.getSizeStyles()]}>
           <View style={[
             this.getEdgeColor(),
@@ -135,7 +135,7 @@ Viewfinder.defaultProps = {
 };
 
 var styles = StyleSheet.create({
-  overlay: {
+  container: {
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
