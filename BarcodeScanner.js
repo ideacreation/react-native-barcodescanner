@@ -1,11 +1,12 @@
 'use strict';
 
-var React = require('react-native');
+var React = require('react');
+var ReactNative = require('react-native');
+var { PropTypes} = React;
 var {
-  PropTypes,
   requireNativeComponent,
   View,
-} = React;
+} = ReactNative;
 
 class BarcodeScannerView extends React.Component {
   constructor() {
