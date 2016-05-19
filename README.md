@@ -2,9 +2,11 @@
 
 A barcode scanner component for React Native Android. For iOS you can use https://github.com/lwansbrough/react-native-camera. The library depends on https://github.com/dm77/barcodescanner and https://github.com/zxing/zxing.
 
-### Breaking change
+### React Native dependencies
 
-React native 0.19 changed the ReactProps class which led to problems with updating native view properties (see https://github.com/facebook/react-native/issues/5649). These errors are corrected in react-native-barcodescanner version 1.0.0. Use version 1.0.0 and larger for react native >=0.19 and for earlier react native versions use version 0.1.4.
+- Version 0.1.4 for React Native <=0.18
+- Version 1.x.x for React Native >=0.19
+- Version 2.x.x for React Native >=0.25
 
 ### Installation
 
