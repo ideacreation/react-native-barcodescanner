@@ -1,13 +1,13 @@
 {
   "name": "react-native-barcodescanner",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A barcode scanner component for react native",
   "license": "MIT",
   "main": "BarcodeScanner.js",
   "author": {
     "name": "Andreas Keller",
-    "email": "a.keller@e-guma.ch",
-    "url": "https://www.e-guma.ch"
+    "email": "andreas.keller@gmx.ch",
+    "url": "http://www.andreaskeller.name"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
     "android",
     "barcodescanner",
     "barcode",
+    "qrcode",
     "scanner",
     "barcodereader"
   ]

@@ -1,12 +1,16 @@
 # react-native-barcodescanner
 
-A barcode scanner component for React Native Android. For iOS you can use https://github.com/lwansbrough/react-native-camera. The library depends on https://github.com/dm77/barcodescanner and https://github.com/zxing/zxing.
+A barcode scanner component for react native android. The library uses https://github.com/zxing/zxing to decode the barcodes. For iOS you can use https://github.com/lwansbrough/react-native-camera.
+
+### Version 3.0.0
+
+With version 3.0.0 react-native-barcodescanner doesn't depend anymore on https://github.com/dm77/barcodescanner, but directly on https://github.com/zxing/zxing. The code is still heavily influenced by it but simplified for our use case. The viewfinder is rendered in javascript and not anymore directly in java.
 
 ### React Native dependencies
 
 - Version 0.1.4 for React Native <=0.18
 - Version 1.x.x for React Native >=0.19
-- Version 2.x.x for React Native >=0.25
+- Version 3.x.x for React Native >=0.25
 
 ### Installation
 
@@ -20,8 +24,8 @@ npm i --save react-native-barcodescanner
 
   ```gradle
   ...
-  include ':ReactNativeBarcodescanner', ':app'
-  project(':ReactNativeBarcodescanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcodescanner/android')
+  include ':react-native-barcodescanner', ':app'
+  project(':react-native-barcodescanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcodescanner/android')
   ```
 
 * In `android/app/build.gradle`
@@ -30,7 +34,7 @@ npm i --save react-native-barcodescanner
   ...
   dependencies {
       ...
-      compile project(':ReactNativeBarcodescanner')
+      compile project(':react-native-barcodescanner')
   }
   ```
 
@@ -38,10 +42,10 @@ npm i --save react-native-barcodescanner
 
   Add the following **import** statement:
   ```Java
-  import com.eguma.barcodescanner.BarcodeScanner;
+  import com.eguma.barcodescanner.BarcodeScannerPackage;
   ```
 
-  ...and then add `BarcodeScanner` to exported package list *(MainActivity.java#getPackages)*:
+  ...and then add `BarcodeScannerPackage` to exported package list *(MainActivity.java#getPackages)*:
 
   ```Java
   public class MainActivity extends ReactActivity {
@@ -51,7 +55,7 @@ npm i --save react-native-barcodescanner
       protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new BarcodeScanner()
+          new BarcodeScannerPackage()
         );
       }
   }
@@ -135,7 +139,9 @@ Values:
 
 Use the `cameraType` property to specify the camera to use. If you specify the front camera, but the device has no front camera the back camera is used.
 
-### Viewfinder properties
+### Viewfinder
+
+The viewfinder is a child react component of the barcodescanner component. if you don't need the viewfinder (e.g. because you want your own child components to render) or you want your own viewfinder you can disable it with `showViewFinder={false}`.
 
 The following properties can be used to style the viewfinder:
 
@@ -143,11 +149,6 @@ The following properties can be used to style the viewfinder:
 `viewFinderBorderColor`,
 `viewFinderBorderWidth`,
 `viewFinderBorderLength`,
-`viewFinderDrawLaser`,
-`viewFinderLaserColor`
+`viewFinderShowLoadingIndicator`,
 
-All color values are strings and must be specified as `#AARRGGBB` (alpha, red, green, blue). `viewFinderBorderWidth` and `viewFinderBorderLength` are numbers, `viewFinderDrawLaser` is either `true` or `false` (default).
-
-For a better overview of the viewfinder see
-
-![Portrait](https://raw.github.com/ideacreation/react-native-barcodescanner/master/screenshot.png).
+All color values are strings (e.g. '#eee' or 'rgba(0, 0, 0, 0.3)', default: 'white'). `viewFinderHeight` (default: 200), `viewFinderWidth` (default: 200), `viewFinderBorderWidth` (default: 2)and `viewFinderBorderLength` (default: 30) are numbers, `viewFinderShowLoadingIndicator` is either `true` or `false` (default) and shows a ActivityIndicatorIOS or a ProgressBarAndroid centered in the viewfinder depending on the platform.

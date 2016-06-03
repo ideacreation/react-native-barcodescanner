@@ -1,16 +1,21 @@
 'use strict';
 
-var React = require('react');
-var ReactNative = require('react-native');
-var { PropTypes} = React;
-var {
+import React, {
+  Component,
+  PropTypes,
+} from 'react';
+import {
   requireNativeComponent,
+  StyleSheet,
   View,
-} = ReactNative;
+} from 'react-native';
 
-class BarcodeScannerView extends React.Component {
+import Viewfinder from './Viewfinder';
+
+class BarcodeScannerView extends Component {
   constructor(props) {
     super(props);
+
     this.onChange = this.onChange.bind(this);
   }
 
@@ -26,28 +31,44 @@ class BarcodeScannerView extends React.Component {
   }
 
   render() {
+    let viewFinder = this.props.showViewFinder ? (
+      <Viewfinder
+        backgroundColor={this.props.viewFinderBackgroundColor}
+        color={this.props.viewFinderBorderColor}
+        borderWidth={this.props.viewFinderBorderWidth}
+        borderLength={this.props.viewFinderBorderLength}
+        height={this.props.viewFinderHeight}
+        isLoading={this.props.viewFinderShowLoadingIndicator}
+        width={this.props.viewFinderWidth}
+      />
+    ) : null;
     return (
-      <RNBarcodeScannerView {...this.props} onChange={this.onChange} />
+      <RNBarcodeScannerView {...this.props} onChange={this.onChange}>
+        <View style={this.props.style} collapsable={false}>
+          {viewFinder}
+          {this.props.children}
+        </View>
+      </RNBarcodeScannerView>
     );
   }
 }
 
 BarcodeScannerView.propTypes = {
   ...View.propTypes,
+  cameraType: PropTypes.string,
+  onBarCodeRead: PropTypes.func,
+  showLoadingIndicator: PropTypes.bool,
+  showViewFinder: PropTypes.bool,
+  torchMode: PropTypes.string,
   viewFinderBackgroundColor: PropTypes.string,
   viewFinderBorderColor: PropTypes.string,
   viewFinderBorderWidth: PropTypes.number,
   viewFinderBorderLength: PropTypes.number,
-  viewFinderDrawLaser: PropTypes.bool,
-  viewFinderLaserColor: PropTypes.string,
-  torchMode: PropTypes.string,
-  cameraType: PropTypes.string,
-  onBarCodeRead: PropTypes.func,
-  rotation: PropTypes.number,
-  scaleX: PropTypes.number,
-  scaleY: PropTypes.number,
-  translateX: PropTypes.number,
-  translateY: PropTypes.number,
+  viewFinderShowLoadingIndicator: PropTypes.bool,
+};
+
+BarcodeScannerView.defaultProps = {
+  showViewFinder: true,
 };
 
 var RNBarcodeScannerView = requireNativeComponent('RNBarcodeScannerView', BarcodeScannerView, {
