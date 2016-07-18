@@ -2,10 +2,6 @@
 
 A barcode scanner component for react native android. The library uses https://github.com/zxing/zxing to decode the barcodes. For iOS you can use https://github.com/lwansbrough/react-native-camera.
 
-### Version 3.0.0
-
-With version 3.0.0 react-native-barcodescanner doesn't depend anymore on https://github.com/dm77/barcodescanner, but directly on https://github.com/zxing/zxing. The code is still heavily influenced by it but simplified for our use case. The viewfinder is rendered in javascript and not anymore directly in java.
-
 ### React Native dependencies
 
 - Version 0.1.4 for React Native <=0.18
@@ -18,7 +14,11 @@ With version 3.0.0 react-native-barcodescanner doesn't depend anymore on https:/
 npm i --save react-native-barcodescanner
 ```
 
-### Add it to your android project
+### Link it to your android project
+
+You can link it simply by running `react-native link`.
+
+#### Manual linking
 
 * In `android/settings.gradle`
 
@@ -38,17 +38,17 @@ npm i --save react-native-barcodescanner
   }
   ```
 
-* register module (in MainActivity.java)
+* register module (in MainApplication.java)
 
   Add the following **import** statement:
   ```Java
   import com.eguma.barcodescanner.BarcodeScannerPackage;
   ```
 
-  ...and then add `BarcodeScannerPackage` to exported package list *(MainActivity.java#getPackages)*:
+  ...and then add `BarcodeScannerPackage` to exported package list *(MainApplication.java#getPackages)*:
 
   ```Java
-  public class MainActivity extends ReactActivity {
+  public class MainApplication extends Application implements ReactApplication {
       // (...)
 
       @Override
@@ -61,7 +61,8 @@ npm i --save react-native-barcodescanner
   }
   ```
 
-## Example
+## Usage
+
 ```javascript
 import React, {
   AppRegistry,
@@ -69,7 +70,7 @@ import React, {
 } from 'react-native';
 import BarcodeScanner from 'react-native-barcodescanner';
 
-class BarcodeScannerExampleApp extends Component {
+class BarcodeScannerApp extends Component {
   constructor(props) {
     super(props);
 
@@ -96,8 +97,22 @@ class BarcodeScannerExampleApp extends Component {
   }
 }
 
-AppRegistry.registerComponent('BarcodeScannerExampleApp', () => BarcodeScannerExampleApp);
+AppRegistry.registerComponent('BarcodeScannerApp', () => BarcodeScannerApp);
 ```
+
+## Example
+
+Try the included [BarcodeScanner example](https://github.com/ideacreation/react-native-barcodescanner/tree/master/Examples/BarcodeScanner) yourself:
+
+```sh
+git clone git@github.com:ideacreation/react-native-barcodescanner.git
+cd react-native-barcodescanner/Examples/BarcodeScanner
+npm install
+react-native run-android
+
+```
+
+To test the example you can scan the barcodes in the [Testcodes.pdf](https://github.com/ideacreation/react-native-barcodescanner/tree/master/Examples/Testcodes.pdf) file.
 
 ## Properties
 

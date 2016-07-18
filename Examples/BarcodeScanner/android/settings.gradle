@@ -1,0 +1,5 @@
+rootProject.name = 'BarcodeScanner'
+
+include ':app'
+include ':react-native-barcodescanner'
+project(':react-native-barcodescanner').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-barcodescanner/android')
