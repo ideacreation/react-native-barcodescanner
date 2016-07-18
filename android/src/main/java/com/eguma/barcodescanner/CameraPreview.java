@@ -2,25 +2,13 @@ package com.eguma.barcodescanner;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Display;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
-import android.view.Display;
-import android.os.Handler;
-
-import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.facebook.react.uimanager.events.RCTEventEmitter;
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.PlanarYUVLuminanceSource;
-import com.google.zxing.ReaderException;
-import com.google.zxing.Result;
-import com.google.zxing.common.HybridBinarizer;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private CameraManager mCameraManager;
@@ -51,6 +39,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public void stopCamera() {
         stopCameraPreview();
         mCameraManager.releaseCamera();
+        mCamera = null;
     }
 
     public void setCameraType(String cameraType) {

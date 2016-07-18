@@ -1,14 +1,12 @@
 package com.eguma.barcodescanner;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.hardware.Camera;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
@@ -19,7 +17,7 @@ import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 
-public class BarcodeScannerView extends FrameLayout implements Camera.PreviewCallback {
+public class BarcodeScannerView extends FrameLayout implements Camera.PreviewCallback, LifecycleEventListener {
     private CameraPreview mPreview;
     private MultiFormatReader mMultiFormatReader;
 
@@ -33,26 +31,12 @@ public class BarcodeScannerView extends FrameLayout implements Camera.PreviewCal
         this.addView(mPreview);
     }
 
-    public void onResume() {
-        mPreview.startCamera(); // workaround for reload js
-        // mPreview.onResume();
-    }
-
-    public void onPause() {
-        mPreview.stopCamera();  // workaround for reload js
-        // mPreview.onPause();
-    }
-
     public void setCameraType(String cameraType) {
         mPreview.setCameraType(cameraType);
     }
 
     public void setFlash(boolean flag) {
         mPreview.setFlash(flag);
-    }
-
-    public void stopCamera() {
-        mPreview.stopCamera();
     }
 
     @Override
@@ -99,4 +83,22 @@ public class BarcodeScannerView extends FrameLayout implements Camera.PreviewCal
             Log.e(TAG, e.toString(), e);
         }
     }
+
+    @Override
+    public void onHostResume() {
+        mPreview.startCamera(); // workaround for reload js
+        // mPreview.onResume();
+    }
+
+    @Override
+    public void onHostPause() {
+        mPreview.stopCamera();  // workaround for reload js
+        // mPreview.onPause();
+    }
+
+    @Override
+    public void onHostDestroy() {
+        mPreview.stopCamera();
+    }
+
 }
