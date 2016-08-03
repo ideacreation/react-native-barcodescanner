@@ -65,6 +65,8 @@ BarcodeScannerView.propTypes = {
   viewFinderBorderWidth: PropTypes.number,
   viewFinderBorderLength: PropTypes.number,
   viewFinderShowLoadingIndicator: PropTypes.bool,
+  viewFinderHeight: PropTypes.number,
+  viewFinderWidth: PropTypes.number,
 };
 
 BarcodeScannerView.defaultProps = {
