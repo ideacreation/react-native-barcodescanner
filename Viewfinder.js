@@ -3,9 +3,8 @@ import React, {
   PropTypes,
 } from 'react';
 import {
-  ActivityIndicatorIOS,
+  ActivityIndicator,
   Platform,
-  ProgressBarAndroid,
   StyleSheet,
   View,
 } from 'react-native';
@@ -47,24 +46,15 @@ class Viewfinder extends Component {
   }
 
   renderLoadingIndicator() {
-    if (Platform.OS === 'ios') {
-      return (
-        <ActivityIndicatorIOS
-          animating={this.props.isLoading}
-          color={this.props.color}
-          size='large'
-        />
-      );
-    }
-
     if (!this.props.isLoading) {
       return null;
     }
 
     return (
-      <ProgressBarAndroid
-        styleAttr="Inverse"
-        style={this.getEdgeColor()}
+      <ActivityIndicator
+        animating={this.props.isLoading}
+        color={this.props.color}
+        size='large'
       />
     );
   }
