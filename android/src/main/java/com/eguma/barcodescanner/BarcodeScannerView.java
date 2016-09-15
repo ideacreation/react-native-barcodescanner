@@ -1,5 +1,7 @@
 package com.eguma.barcodescanner;
 
+
+import android.os.AsyncTask;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -56,61 +58,104 @@ public class BarcodeScannerView extends FrameLayout implements Camera.PreviewCal
         mPreview.stopCamera();
     }
 
-    @Override
-    public void onPreviewFrame(byte[] data, Camera camera) {
-        try {
-            Camera.Parameters parameters = camera.getParameters();
-            Camera.Size size = parameters.getPreviewSize();
-            int width = size.width;
-            int height = size.height;
 
-            if (DisplayUtils.getScreenOrientation(getContext()) == Configuration.ORIENTATION_PORTRAIT) {
-                byte[] rotatedData = new byte[data.length];
-                for (int y = 0; y < height; y++) {
-                    for (int x = 0; x < width; x++)
-                        rotatedData[x * height + height - y - 1] = data[x + y * width];
-                }
+    public class ProcessFrameData {
+        public byte[] data;
+        public Camera camera;
 
-                int tmp = width;
-                width = height;
-                height = tmp;
-                data = rotatedData;
-            }
+        public ProcessFrameData(byte[] data, Camera camera) {
+            this.data = data;
+            this.camera = camera;
+        }
+    }
 
-            Result rawResult = null;
-            PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false);
+    private class ProcessFrameTask extends AsyncTask<ProcessFrameData, Void, Void> {
+        protected Void doInBackground(ProcessFrameData... objArr) {               
+                
+                byte[] data = objArr[0].data;
+                Camera camera = objArr[0].camera;
 
-            if (source != null) {
-                BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                
                 try {
-                    rawResult = mMultiFormatReader.decodeWithState(bitmap);
-                } catch (ReaderException re) {
-                    // continue
-                } catch (NullPointerException npe) {
-                    // This is terrible
-                } catch (ArrayIndexOutOfBoundsException aoe) {
+                    Camera.Parameters parameters = camera.getParameters();
+                    Camera.Size size = parameters.getPreviewSize();
+                    int width = size.width;
+                    int height = size.height;
 
-                } finally {
-                    mMultiFormatReader.reset();
-                }
+                    if (DisplayUtils.getScreenOrientation(getContext()) == Configuration.ORIENTATION_PORTRAIT) {
+                        byte[] rotatedData = new byte[data.length];
+                        for (int y = 0; y < height; y++) {
+                            for (int x = 0; x < width; x++)
+                                rotatedData[x * height + height - y - 1] = data[x + y * width];
+                        }
+
+                        int tmp = width;
+                        width = height;
+                        height = tmp;
+                        data = rotatedData;
+                    }
+
+                    Result rawResult = null;
+                    PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false);
+
+                    if (source != null) {
+                        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                        try {
+                            rawResult = mMultiFormatReader.decodeWithState(bitmap);
+                        } catch (ReaderException re) {
+                            // continue
+                        } catch (NullPointerException npe) {
+                            // This is terrible
+                        } catch (ArrayIndexOutOfBoundsException aoe) {
+
+                        } finally {
+                            mMultiFormatReader.reset();
+                        }
+                    }
+
+                    final Result finalRawResult = rawResult;
+
+                    if (finalRawResult != null) {
+                        Log.i(TAG, finalRawResult.getText());
+                        WritableMap event = Arguments.createMap();
+                        event.putString("data", finalRawResult.getText());
+                        event.putString("type", finalRawResult.getBarcodeFormat().toString());
+                        ReactContext reactContext = (ReactContext)getContext();
+                        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+                                getId(),
+                                "topChange",
+                                event);
+                    }
+                    } catch(Exception e) {
+                        // TODO: Terrible hack. It is possible that this method is invoked after camera is released.
+                        Log.e(TAG, e.toString(), e);
+                    }
+            
+                    return null;
             }
 
-            final Result finalRawResult = rawResult;
-
-            if (finalRawResult != null) {
-                Log.i(TAG, finalRawResult.getText());
-                WritableMap event = Arguments.createMap();
-                event.putString("data", finalRawResult.getText());
-                event.putString("type", finalRawResult.getBarcodeFormat().toString());
-                ReactContext reactContext = (ReactContext)getContext();
-                reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
-                        getId(),
-                        "topChange",
-                        event);
+            protected void onProgressUpdate(Integer... progress) {
+                
             }
-        } catch(Exception e) {
-            // TODO: Terrible hack. It is possible that this method is invoked after camera is released.
-            Log.e(TAG, e.toString(), e);
+
+            protected void onPostExecute() {
+                
+            }
+    }
+
+
+    public ProcessFrameTask CURRENT_TASK;
+    @Override
+    public void onPreviewFrame(byte[] data, Camera camera) {        
+        // only allow one running task
+        if(CURRENT_TASK == null || CURRENT_TASK.getStatus() == AsyncTask.Status.FINISHED ) {
+            if(camera != null) {
+                // AsyncTask expects one parameter, so I wrap data and camera in a class
+                ProcessFrameData frameDataHeloer = new ProcessFrameData(data, camera);
+                CURRENT_TASK = new ProcessFrameTask();            
+                CURRENT_TASK.execute(frameDataHeloer);
+            }               
+
         }
     }
 }
