@@ -14,6 +14,7 @@ public class BarcodeScannerManager extends ViewGroupManager<BarcodeScannerView> 
     private static final String REACT_CLASS = "RNBarcodeScannerView";
 
     private static final String DEFAULT_TORCH_MODE = "off";
+    private static final String DEFAULT_FOCUS_MODE = "on";
     private static final String DEFAULT_CAMERA_TYPE = "back";
 
     private BarcodeScannerView mScannerView;
@@ -38,12 +39,20 @@ public class BarcodeScannerManager extends ViewGroupManager<BarcodeScannerView> 
         }
     }
 
+    @ReactProp(name = "autoFocus")
+    public void setAutoFocus(BarcodeScannerView view, @Nullable String autoFocus) {
+        if (autoFocus != null) {
+            view.setFocus(autoFocus.equals("on"));
+        }
+    }
+
     @Override
     public BarcodeScannerView createViewInstance(ThemedReactContext context) {
         context.addLifecycleEventListener(this);
         mScannerView = new BarcodeScannerView(context);
         mScannerView.setCameraType(DEFAULT_CAMERA_TYPE);
         mScannerView.setFlash(DEFAULT_TORCH_MODE.equals("on"));
+        mScannerView.setFocus(DEFAULT_FOCUS_MODE.equals("on"));
         mScannerViewVisible = true;
         return mScannerView;
     }

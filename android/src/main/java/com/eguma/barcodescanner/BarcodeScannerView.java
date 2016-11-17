@@ -49,6 +49,10 @@ public class BarcodeScannerView extends FrameLayout implements Camera.PreviewCal
         mPreview.setFlash(flag);
     }
 
+    public void setFocus(boolean flag) {
+        mPreview.setAutoFocus(flag);
+    }
+
     public void stopCamera() {
         mPreview.stopCamera();
     }
