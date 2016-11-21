@@ -23,8 +23,8 @@ import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-    private CameraManager mCameraManager;
-    private Camera mCamera;
+    private static CameraManager mCameraManager;
+    private static Camera mCamera;
     private String mCameraType;
     private Camera.PreviewCallback mPreviewCallback;
 
@@ -37,8 +37,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     public CameraPreview(Context context, Camera.PreviewCallback previewCallback) {
         super(context);
-
-        mCameraManager = new CameraManager();
+        mCameraManager = CameraManager.getInstance();
         mAutoFocusHandler = new Handler();
         mPreviewCallback = previewCallback;
     }
@@ -89,6 +88,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 mCamera.cancelAutoFocus();
                 mCamera.setPreviewCallback(null);
                 mCamera.stopPreview();
+                mCamera = null;
             } catch(Exception e) {
                 Log.e(TAG, e.toString(), e);
             }

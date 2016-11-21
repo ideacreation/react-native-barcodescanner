@@ -4,11 +4,19 @@ import android.hardware.Camera;
 import java.util.List;
 
 public class CameraManager {
+    private static CameraManager mCameraManager;
+
     private int mCameraId = -1;
     private Camera mCamera;
 
-    public CameraManager() {
-        mCamera = getCameraInstance();
+    private CameraManager() {
+    }
+
+    public static CameraManager getInstance() {
+        if (mCameraManager == null) {
+            mCameraManager = new CameraManager();
+        }
+        return mCameraManager;
     }
 
     public Camera getCamera() {
