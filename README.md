@@ -68,9 +68,10 @@ You can link it simply by running `react-native link`.
 ## Usage
 
 ```javascript
-import React, {
+'use strict'
+import React, { Component } from 'react';
+import {
   AppRegistry,
-  Component,
 } from 'react-native';
 import BarcodeScanner from 'react-native-barcodescanner';
 
