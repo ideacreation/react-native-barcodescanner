@@ -109,7 +109,7 @@ AppRegistry.registerComponent('BarcodeScannerApp', () => BarcodeScannerApp);
 Try the included [BarcodeScanner example](https://github.com/ideacreation/react-native-barcodescanner/tree/master/Examples/BarcodeScanner) yourself:
 
 ```sh
-git clone git@github.com:ideacreation/react-native-barcodescanner.git
+git clone https://github.com/ideacreation/react-native-barcodescanner.git
 cd react-native-barcodescanner/Examples/BarcodeScanner
 npm install
 react-native run-android
