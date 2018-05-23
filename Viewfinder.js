@@ -1,6 +1,5 @@
 import React, {
   Component,
-  PropTypes,
 } from 'react';
 import {
   ActivityIndicator,
@@ -8,6 +7,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import PropTypes from "prop-types";
 
 class Viewfinder extends Component {
   constructor(props) {
