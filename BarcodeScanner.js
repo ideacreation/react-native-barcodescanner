@@ -1,8 +1,7 @@
 'use strict';
 
 import React, {
-  Component,
-  PropTypes,
+  Component
 } from 'react';
 import {
   requireNativeComponent,
@@ -11,6 +10,7 @@ import {
 } from 'react-native';
 
 import Viewfinder from './Viewfinder';
+import PropTypes from 'prop-types';
 
 class BarcodeScannerView extends Component {
   constructor(props) {
